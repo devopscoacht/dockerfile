@@ -6,7 +6,7 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("https://hub.docker.com/repository/docker/devopscoacht/jenkinscicd/:${env.BUILD_NUMBER}")
+        app = docker.build("your-docker-repo/your-image-name:${env.BUILD_NUMBER}")
     }
 
     stage('Test image') {
@@ -16,7 +16,7 @@ node {
     }
 
     stage('Push image') {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-details') {
+        docker.withRegistry('https://hub.docker.com/repository/docker/devopscoacht/jenkinscicd', 'docker-hub-details') {
             app.push("${env.BUILD_NUMBER}")
         }
     }
