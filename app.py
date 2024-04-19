@@ -1,7 +1,5 @@
 from fastapi import FastAPI
-
 import mangum
-
 import uvicorn
 
 app = FastAPI()
@@ -19,6 +17,14 @@ def read_jenkins():
     Endpoint for the Jenkins team.
     """
     return {"Hello": "SUPER TEAM"}
+
+@app.get("/hello")
+def hello_world():
+    """
+    Endpoint that prints 'Hello, world!' to the console.
+    """
+    print('Hello, world!')
+    return {"message": "Hello, world!"}
 
 handler = mangum.Mangum(app)
 

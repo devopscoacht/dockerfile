@@ -1,24 +1,17 @@
-# Use the official Python image  as the base images
-
-FROM  python:3.11.9-bullseye
+# Use the official Python image as the base image
+FROM python:3.11.9-bullseye
 
 # Set a working directory
-
 WORKDIR /app
 
-# Copy requirments files into the container
-
+# Copy requirements files into the container
 COPY requirements.txt .
 
- #  install  dependencies
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
- RUN pip install --no-caache-dir -r requirements.txt
+# Copy the FastAPI application source code
+COPY app.py .
 
-
- # Copy the FastApi application source code
-
- COPY app.ny .
-
- # Command to run application using uvicorn
-
- CMD ["uvicorn", "app:app", "--host", "0.0.0.0",  "--port", "8081"]
+# Command to run application using uvicorn
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8081"]

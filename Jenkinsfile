@@ -1,17 +1,25 @@
 node {
-    
     def app
-    stage('Clone  repository') {
+
+    stage('Clone repository') {
         checkout scm
     }
 
     stage('Build image') {
-        app = docker.build("devopscoacht/jenkinscicd")
-
+        app = docker.build("your-docker-repo/your-image-name:${env.BUILD_NUMBER}")
     }
-    stage('Testing Image') {
+
+    stage('Test image') {
         app.inside {
-            sh 'echo "Test Passed"'
+            sh 'echo "Tests passed"'
         }
     }
-}
+
+    stage('Push image') {
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            app.push("${env.BUILD_NUMBER}")
+        }
+    }
+}  
+    
+    
