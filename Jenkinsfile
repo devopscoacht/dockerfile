@@ -16,8 +16,11 @@ node {
     }
 
     stage('Push image') {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-details') {
-            app.push("${env.BUILD_NUMBER}")
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-details', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-details') {
+                sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                app.push("${env.BUILD_NUMBER}")
+            }
         }
     }
 }
