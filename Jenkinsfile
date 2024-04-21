@@ -6,7 +6,7 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("https://hub.docker.com/repositories/devopscoacht/jenkinscicd:tagname:${env.BUILD_NUMBER}")
+        app = docker.build("devopscoacht/jenkinscicd:${env.BUILD_NUMBER}")
     }
 
     stage('Test image') {
@@ -16,11 +16,12 @@ node {
     }
 
     stage('Push image') {
-        withCredentials([usernamePassword(credentialsId: 'c787dc5b-cb0a-41e2-922a-2013cb3f8827', 
-                                          usernameVariable: 'DOCKER_USERNAME', 
-                                          passwordVariable: 'DOCKER_PASSWORD')]) {
+        withCredentials([usernamePassword(credentialsId: 'c787dc5b-cb0a-41e2-922a-2013cb3f8827', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
             docker.withRegistry('https://registry.hub.docker.com', 'c787dc5b-cb0a-41e2-922a-2013cb3f8827') {
-                app.push("${env.BUILD_NUMBER}")
+                // Tag the image with the desired tag before pushing
+                sh "docker tag devopscoacht/jenkinscicd:${env.BUILD_NUMBER} devopscoacht/jenkinscicd:tagname"
+                // Push the image with the new tag
+                app.push("tagname")
             }
         }
     }
