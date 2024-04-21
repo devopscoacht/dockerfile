@@ -19,9 +19,9 @@ node {
         withCredentials([usernamePassword(credentialsId: 'c787dc5b-cb0a-41e2-922a-2013cb3f8827', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
             docker.withRegistry('https://registry.hub.docker.com', 'c787dc5b-cb0a-41e2-922a-2013cb3f8827') {
                 // Tag the image with the desired tag before pushing
-                sh "docker tag devopscoacht/jenkinscicd:${env.BUILD_NUMBER} devopscoacht/jenkinscicd:tagname"
+                sh "docker tag devopscoacht/jenkinscicd:${env.BUILD_NUMBER} devopscoacht/jenkinscicd:Hello-FastAPI"
                 // Push the image with the new tag
-                app.push("tagname")
+                app.push("Hello-FastAPI")
             }
         }
     }
