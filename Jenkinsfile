@@ -6,7 +6,7 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("https://hub.docker.com/repositories/devopscoacht:${env.BUILD_NUMBER}")
+        app = docker.build("https://hub.docker.com/repositories/devopscoacht/jenkinscicd:tagname:${env.BUILD_NUMBER}")
     }
 
     stage('Test image') {
