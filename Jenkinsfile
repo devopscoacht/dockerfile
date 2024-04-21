@@ -16,10 +16,8 @@ node {
     }
 
     stage('Push image') {
-        docker.withRegistry('https://hub.docker.com/repository/docker/devopscoacht/jenkinscicd', 'docker-hub-details') {
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-details') {
             app.push("${env.BUILD_NUMBER}")
         }
     }
-}  
-    
-    
+}
